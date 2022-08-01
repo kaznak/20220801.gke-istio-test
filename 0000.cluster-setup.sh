@@ -39,3 +39,11 @@ istioctl install --set profile=demo -y
 
 # setup kiali, istio dashboard
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.14/samples/addons/kiali.yaml
+
+cat <<EOM   > /dev/stderr
+To access kiali UI,
+run
+kubectl port-forward svc/kiali 20001:20001 -n istio-system
+and access to
+http://localhost:20001/
+EOM
