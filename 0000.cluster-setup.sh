@@ -2,7 +2,8 @@
 
 set -vxe
 
-PROJECT_ID=${PROJECT_ID:-"sandbox-project"}
+source .env # to set PROJECT_ID
+
 CLUSTER_NAME=standard-$(date +%Y%m%d%H%M%S)-$(LANG=C tr -dc 'a-z0-9' < /dev/urandom|fold -w8|head -n1)
 
 # Setup GKE Standard cluster for Istio
