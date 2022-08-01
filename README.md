@@ -4,6 +4,6 @@
   - [k8s dashboard](https://kubernetes.io/ja/docs/tasks/access-application-cluster/web-ui-dashboard/)
   - [Istio](https://istio.io/latest/docs/)
     - [GEK setup for Istio](https://istio.io/latest/docs/setup/platform-setup/gke/)
-  - kiali
-  - Keycloak
+  - [kiali](https://kiali.io/docs/)
+  - [Keycloak](https://www.keycloak.org/)
   - Some sample application
