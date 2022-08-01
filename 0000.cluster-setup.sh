@@ -15,7 +15,7 @@ gcloud container clusters create    \
     --region=us-central1    \
     --release-channel=stable    \
     --machine-type=n1-standard-2    \
-    --num-nodes 3
+    --num-nodes 1
 
 gcloud container clusters get-credentials $CLUSTER_NAME \
     --project $PROJECT_ID   \
@@ -47,3 +47,8 @@ kubectl port-forward svc/kiali 20001:20001 -n istio-system
 and access to
 http://localhost:20001/
 EOM
+
+# setup keycloak
+curl https://raw.githubusercontent.com/keycloak/keycloak-quickstarts/latest/kubernetes-examples/keycloak.yaml    |
+istioctl kube-inject -f -   |
+kubectl apply -f -
