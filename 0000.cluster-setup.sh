@@ -36,3 +36,6 @@ kubectl create clusterrolebinding cluster-admin-binding \
     --user=$(gcloud config get-value core/account)
 
 istioctl install --set profile=demo -y
+
+# setup kiali, istio dashboard
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.14/samples/addons/kiali.yaml
