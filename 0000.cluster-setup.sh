@@ -5,6 +5,7 @@ set -vxe
 PROJECT_ID=${PROJECT_ID:-"sandbox-project"}
 CLUSTER_NAME=standard-$(date +%Y%m%d%H%M%S)-$(LANG=C tr -dc 'a-z0-9' < /dev/urandom|fold -w8|head -n1)
 
+# Setup GKE Standard cluster for Istio
 gcloud services enable container.googleapis.com \
     --project=$PROJECT_ID
 
@@ -18,8 +19,18 @@ gcloud container clusters create    \
 
 gcloud container clusters get-credentials $CLUSTER_NAME \
     --project $PROJECT_ID   \
-    --zone=us-central1-a
+    --zone=us-central1
 
+# setup k8s Web UI
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+
+cat <<EOM   > /dev/stderr
+To access Web UI,
+run "kubectl proxy" and access to
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+EOM
+
+# setup Istio
 kubectl create clusterrolebinding cluster-admin-binding \
     --clusterrole=cluster-admin \
     --user=$(gcloud config get-value core/account)
