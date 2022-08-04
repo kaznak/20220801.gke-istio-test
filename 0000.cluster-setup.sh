@@ -1,10 +1,12 @@
 #!/bin/bash
 
-set -vxe
+set -vx
+set -Ee
 
 source .env # to set PROJECT_ID
 
 CLUSTER_NAME=standard-$(date +%Y%m%d%H%M%S)-$(LANG=C tr -dc 'a-z0-9' < /dev/urandom|fold -w8|head -n1)
+REGION=us-central1
 
 # Setup GKE Standard cluster for Istio
 gcloud services enable container.googleapis.com \
@@ -13,14 +15,14 @@ gcloud services enable container.googleapis.com \
 gcloud container clusters create    \
     $CLUSTER_NAME   \
     --project=$PROJECT_ID   \
-    --region=us-central1    \
+    --region=$REGION    \
     --release-channel=stable    \
     --machine-type=n1-standard-2    \
     --num-nodes 1
 
 gcloud container clusters get-credentials $CLUSTER_NAME \
     --project $PROJECT_ID   \
-    --zone=us-central1
+    --zone=$REGION
 
 # setup k8s Web UI
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
